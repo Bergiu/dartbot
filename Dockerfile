@@ -1,15 +1,11 @@
-FROM rust:1.45.0 as builder
+FROM google/dart:2.9.1
 
-WORKDIR /usr/src/dartbot
+WORKDIR /app
 
-COPY . .
+ADD pubspec.* /app/
+RUN pub get
+ADD . /app
+RUN pub get --offline
 
-RUN cargo build --release
-
-FROM debian:buster-slim
-
-RUN apt-get update && apt-get install -y libcurl4-openssl-dev libelf-dev libdw-dev binutils-dev && rm -rf /var/lib/apt/lists/*
-
-COPY --from=builder /usr/src/dartbot/target/release/dartbot /usr/local/bin/dartbot
-
-CMD ["dartbot"]
+CMD []
+ENTRYPOINT ["/usr/bin/dart", "src/main.dart"]
