@@ -17,7 +17,7 @@ const String RESTRICTED = "restricted";
 const String LEFT = "left";
 const String KICKED = "kicked";
 
-void handle_dice(message, Telegram telegram) async {
+void handle_dice(TeleDartMessage message, Telegram telegram) async {
     var dice = message.dice;
     if (dice.emoji == "🎯" && dice.value == 6) {
         // get username
@@ -100,9 +100,6 @@ void main() {
 
     teledart
         .onMessage()
-        .listen((message) {
-        if (message.dice != null) {
-            handle_dice(message, telegram);
-        }
-    } );
+        .where((message) => message.dice != null)
+        .listen((message) => handle_dice(message, telegram));
 }
