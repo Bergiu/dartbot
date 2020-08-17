@@ -4,4 +4,4 @@ authors: muvlon, bergiu
 environment:
   sdk: '>=2.0.0 <3.0.0'
 dependencies:
-  teledart: 0.0.47
+  teledart: 0.0.48
