@@ -47,13 +47,6 @@ void handle_dice(TeleDartMessage message, Telegram telegram) async {
                     case RESTRICTED:
                     case KICKED:
                         {
-                            List<String> msgs = ["Jawollo!",
-                                "Gewinner, Gewinner, Huhn Abendessen!",
-                                "Viel Spaß bei einer Woche Urlaub von RWTH Informatik!",
-                                "endlich"];
-                            var rng = new Random();
-                            var random = rng.nextInt(msgs.length);
-                            message.reply(msgs[random]);
                             var permissions = new ChatPermissions(
                                 can_send_messages: false);
                             var date = DateTime
@@ -66,8 +59,23 @@ void handle_dice(TeleDartMessage message, Telegram telegram) async {
                                 chat_id, user_id,
                                 permissions: permissions,
                                 until_date: until_date);
-                            banned.then((bool value) => print(value))
-                                .catchError((e) => print(e));
+                            banned.then((bool value) {
+                                List<String> msgs = ["Jawollo!",
+                                    "Gewinner, Gewinner, Huhn Abendessen!",
+                                    "Viel Spaß bei einer Woche Urlaub von RWTH Informatik!",
+                                    "endlich"];
+                                var rng = new Random();
+                                var random = rng.nextInt(msgs.length);
+                                message.reply(msgs[random]);
+                            }, onError: (e) {
+                                print("banning failed");
+                                List<String> msgs = ["Gebt mir Admin-Rechte!",
+                                    "Ich hab zwar keine Rechte dich zu Muten, aber sei bitte trotzdem still.",
+                                    "Wann kann ich endlich Leute muten?"];
+                                var rng = new Random();
+                                var random = rng.nextInt(msgs.length);
+                                message.reply(msgs[random]);
+                            });
                         }
                         break;
 
